@@ -41,12 +41,115 @@ public class CovidSoapClient {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DatatypeConfigurationException {
         // TODO code application logic here
-        insertData();
+        insertDataList();
+//        System.out.println("List All");
+//        listAll();
+//        System.out.println("List By Year");
+//        listByYear(2021);
+//        System.out.println("List By Week");
+//        listByWeek(13);
+//        System.out.println("List By PK");
+//        listByPk(2021,15);
+
+//        insertData();
+
+        //update data year=2021 week=13
+//           updateData();
+//           listAll();
+        //delete data that appear after use func insertData();
+//        deleteData();
+//        deleteData();
     }
 
-    public static void insertData() {
+    public static void listAll() {
+        System.out.println("List All");
+        List<Covid> coList = callSoap.listAll();
+        for (Covid co : coList) {
+            callSoap.printCovid(co);
+        }
+    }
+
+    public static void listByYear(int year) {
+        System.out.println("List By Year = " + year);
+        List<Covid> coList = callSoap.listByYear(year);
+        for (Covid co : coList) {
+            callSoap.printCovid(co);
+        }
+    }
+
+    public static void listByWeek(int week) {
+        System.out.println("List By Week = " + week);
+        List<Covid> coList = callSoap.listByWeek(week);
+        for (Covid co : coList) {
+            callSoap.printCovid(co);
+        }
+    }
+
+    public static void listByPk(int year, int week) {
+        callSoap.printCovid(callSoap.listByPk(year, week));
+    }
+
+    public static void updateData() {
+        Covid co = callSoap.listByPk(2021, 13);
+        System.out.println("Before Update");
+        callSoap.printCovid(co);
+        co.setNewCase(10000);
+        System.out.println("After Update");
+        callSoap.updateCovid(co);
+        Covid response = callSoap.listByPk(2021, 13);
+        callSoap.printCovid(response);
+    }
+
+    public static void deleteData() {
+        Covid co = callSoap.listByPk(2020, 15);
+        List<Covid> temp = callSoap.listAll();
+        if (co != null) {
+            System.out.println("Before Delete:Count = " + temp.size());
+            callSoap.printCovid(co);
+            System.out.println(callSoap.deleteCovid(co));
+            temp = callSoap.listAll();
+            System.out.println("After Delete:Count = " + temp.size());
+        } else {
+            System.out.println("Data Not Found");
+        }
+
+    }
+
+    public static void insertData() throws DatatypeConfigurationException {
+        List<Covid> temp = callSoap.listAll();
+        System.out.println("Before Insert :Count =" + temp.size());
+        Covid newRow = new Covid();
+        CovidPK pk = new CovidPK();
+        pk.setYears(2020);
+        pk.setWeeknum(15);
+        newRow.setCovidPK(pk);
+        newRow.setNewCase(8927);
+        newRow.setTotalCase(40585);
+        newRow.setNewCaseExcludeabroad(8890);
+        newRow.setTotalCaseExcludeabroad(37353);
+        newRow.setNewRecovered(409);
+        newRow.setTotalRecovered(28570);
+        newRow.setNewDeath(3);
+        newRow.setTotalDeath(100);
+        newRow.setCaseForeign(37);
+        newRow.setCasePrison(0);
+        newRow.setCaseWalkin(6175);
+        newRow.setCaseNewPrev(8169);
+        newRow.setCaseNewDiff(758);
+        newRow.setDeathNewPrev(4);
+        newRow.setDeathNewDiff(-1);
+        GregorianCalendar tempDate = new GregorianCalendar();
+        tempDate.set(2022, 12, 14);
+        XMLGregorianCalendar finalDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(tempDate);
+        newRow.setUpdateDate(finalDate);
+        callSoap.insertCovid(newRow);
+        temp = callSoap.listAll();
+        System.out.println("After Insert :Count =" + temp.size());
+    }
+
+    public static void insertDataList() {
         List<Covid> covidList = new ArrayList<Covid>();;
         try {
             URL url = new URL("https://covid19.ddc.moph.go.th/api/Cases/report-round-3-y21-line-lists");
@@ -103,7 +206,7 @@ public class CovidSoapClient {
                 covidList.add(temp);
             }
             System.out.println("Size:" + covidList.size());
-            String result = insertCovidList(covidList);
+            String result = callSoap.insertCovidList(covidList);
             System.out.println(result);
         } catch (MalformedURLException ex) {
             Logger.getLogger(CovidSoapClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,14 +217,6 @@ public class CovidSoapClient {
         } catch (DatatypeConfigurationException ex) {
             Logger.getLogger(CovidSoapClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    
-
-    private static String insertCovidList(java.util.List<services.Covid> data) {
-        services.CovidWebService_Service service = new services.CovidWebService_Service();
-        services.CovidWebService port = service.getCovidWebServicePort();
-        return port.insertCovidList(data);
     }
 
 }

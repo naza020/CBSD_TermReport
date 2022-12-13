@@ -19,7 +19,7 @@ import javax.persistence.Query;
  */
 public class CovidTable {
 
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("CovidSoapPU");
+//    EntityManagerFactory emf = Persistence.createEntityManagerFactory("CovidSoapPU");
 
         public static boolean insertCovid(Covid co) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("CovidSoapPU");
@@ -59,7 +59,7 @@ public class CovidTable {
         }
     }
         
-    public static void updateCovid(Covid co) {
+    public static boolean updateCovid(Covid co) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("CovidSoapPU");
         EntityManager em = emf.createEntityManager();
         Covid fromDb = em.find(Covid.class, co.getCovidPK());
@@ -80,14 +80,17 @@ public class CovidTable {
         fromDb.setDeathNewDiff(co.getDeathNewDiff());
         fromDb.setUpdateDate(co.getUpdateDate());
         em.getTransaction().begin();
+        boolean check=true;
         try {
             em.persist(fromDb);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
             em.getTransaction().rollback();
+            check=false;
         } finally {
             em.close();
+            return check;
         }
     }
     public static Covid findCovidByPk(CovidPK pk) {
@@ -101,7 +104,7 @@ public class CovidTable {
     public static List<Covid> findCovidByYear(Integer year) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("CovidSoapPU");
         EntityManager em = emf.createEntityManager();
-        Query query = em.createNamedQuery("Covid.findByYear");
+        Query query = em.createNamedQuery("Covid.findByYears");
         query.setParameter("years", year);
         List<Covid> coList = (List<Covid>) query.getResultList();
         em.close();
@@ -124,19 +127,22 @@ public class CovidTable {
         return coList;
     }
    
-    public static void removeCovid(Covid co) {
+    public static boolean removeCovid(Covid co) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("CovidSoapPU");
         EntityManager em = emf.createEntityManager();
         Covid fromDb = em.find(Covid.class, co.getCovidPK());
         em.getTransaction().begin();
+        boolean check=true;
         try {
             em.remove(fromDb);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
             em.getTransaction().rollback();
+            check=false;
         } finally {
             em.close();
+            return check;
         }
                 
     }

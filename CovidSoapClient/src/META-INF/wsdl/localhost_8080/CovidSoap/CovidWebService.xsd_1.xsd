@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3 (RELEASE-2.4.3-ad3323c; 2019-01-21T17:46:06+0000) JAXWS-RI/2.3.2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown. --><xs:schema xmlns:tns="http://services/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services/">
 
+<xs:element name="DeleteCovid" type="tns:DeleteCovid"/>
+
+<xs:element name="DeleteCovidResponse" type="tns:DeleteCovidResponse"/>
+
 <xs:element name="InsertCovid" type="tns:InsertCovid"/>
 
 <xs:element name="InsertCovidList" type="tns:InsertCovidList"/>
@@ -7,6 +11,26 @@
 <xs:element name="InsertCovidListResponse" type="tns:InsertCovidListResponse"/>
 
 <xs:element name="InsertCovidResponse" type="tns:InsertCovidResponse"/>
+
+<xs:element name="ListAll" type="tns:ListAll"/>
+
+<xs:element name="ListAllResponse" type="tns:ListAllResponse"/>
+
+<xs:element name="ListByPk" type="tns:ListByPk"/>
+
+<xs:element name="ListByPkResponse" type="tns:ListByPkResponse"/>
+
+<xs:element name="ListByWeek" type="tns:ListByWeek"/>
+
+<xs:element name="ListByWeekResponse" type="tns:ListByWeekResponse"/>
+
+<xs:element name="ListByYear" type="tns:ListByYear"/>
+
+<xs:element name="ListByYearResponse" type="tns:ListByYearResponse"/>
+
+<xs:element name="UpdateCovid" type="tns:UpdateCovid"/>
+
+<xs:element name="UpdateCovidResponse" type="tns:UpdateCovidResponse"/>
 
 <xs:element name="covid" type="tns:covid"/>
 
@@ -51,6 +75,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="ListByYear">
+<xs:sequence>
+<xs:element name="year" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ListByYearResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:covid" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="InsertCovidList">
 <xs:sequence>
 <xs:element name="data" type="tns:covid" minOccurs="0" maxOccurs="unbounded"/>
@@ -60,6 +96,65 @@
 <xs:complexType name="InsertCovidListResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ListByWeek">
+<xs:sequence>
+<xs:element name="week" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ListByWeekResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:covid" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="UpdateCovid">
+<xs:sequence>
+<xs:element name="data" type="tns:covid" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="UpdateCovidResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ListAll">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="ListAllResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:covid" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="DeleteCovid">
+<xs:sequence>
+<xs:element name="data" type="tns:covid" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="DeleteCovidResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ListByPk">
+<xs:sequence>
+<xs:element name="year" type="xs:int"/>
+<xs:element name="week" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ListByPkResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:covid" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

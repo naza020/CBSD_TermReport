@@ -42,6 +42,21 @@ public interface CovidWebService {
 
     /**
      * 
+     * @param year
+     * @return
+     *     returns java.util.List<services.Covid>
+     */
+    @WebMethod(operationName = "ListByYear")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "ListByYear", targetNamespace = "http://services/", className = "services.ListByYear")
+    @ResponseWrapper(localName = "ListByYearResponse", targetNamespace = "http://services/", className = "services.ListByYearResponse")
+    @Action(input = "http://services/CovidWebService/ListByYearRequest", output = "http://services/CovidWebService/ListByYearResponse")
+    public List<Covid> listByYear(
+        @WebParam(name = "year", targetNamespace = "")
+        int year);
+
+    /**
+     * 
      * @param data
      * @return
      *     returns java.lang.String
@@ -52,6 +67,81 @@ public interface CovidWebService {
     @ResponseWrapper(localName = "InsertCovidResponse", targetNamespace = "http://services/", className = "services.InsertCovidResponse")
     @Action(input = "http://services/CovidWebService/InsertCovidRequest", output = "http://services/CovidWebService/InsertCovidResponse")
     public String insertCovid(
+        @WebParam(name = "data", targetNamespace = "")
+        Covid data);
+
+    /**
+     * 
+     * @param week
+     * @param year
+     * @return
+     *     returns services.Covid
+     */
+    @WebMethod(operationName = "ListByPk")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "ListByPk", targetNamespace = "http://services/", className = "services.ListByPk")
+    @ResponseWrapper(localName = "ListByPkResponse", targetNamespace = "http://services/", className = "services.ListByPkResponse")
+    @Action(input = "http://services/CovidWebService/ListByPkRequest", output = "http://services/CovidWebService/ListByPkResponse")
+    public Covid listByPk(
+        @WebParam(name = "year", targetNamespace = "")
+        int year,
+        @WebParam(name = "week", targetNamespace = "")
+        int week);
+
+    /**
+     * 
+     * @param week
+     * @return
+     *     returns java.util.List<services.Covid>
+     */
+    @WebMethod(operationName = "ListByWeek")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "ListByWeek", targetNamespace = "http://services/", className = "services.ListByWeek")
+    @ResponseWrapper(localName = "ListByWeekResponse", targetNamespace = "http://services/", className = "services.ListByWeekResponse")
+    @Action(input = "http://services/CovidWebService/ListByWeekRequest", output = "http://services/CovidWebService/ListByWeekResponse")
+    public List<Covid> listByWeek(
+        @WebParam(name = "week", targetNamespace = "")
+        int week);
+
+    /**
+     * 
+     * @return
+     *     returns java.util.List<services.Covid>
+     */
+    @WebMethod(operationName = "ListAll")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "ListAll", targetNamespace = "http://services/", className = "services.ListAll")
+    @ResponseWrapper(localName = "ListAllResponse", targetNamespace = "http://services/", className = "services.ListAllResponse")
+    @Action(input = "http://services/CovidWebService/ListAllRequest", output = "http://services/CovidWebService/ListAllResponse")
+    public List<Covid> listAll();
+
+    /**
+     * 
+     * @param data
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod(operationName = "UpdateCovid")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "UpdateCovid", targetNamespace = "http://services/", className = "services.UpdateCovid")
+    @ResponseWrapper(localName = "UpdateCovidResponse", targetNamespace = "http://services/", className = "services.UpdateCovidResponse")
+    @Action(input = "http://services/CovidWebService/UpdateCovidRequest", output = "http://services/CovidWebService/UpdateCovidResponse")
+    public String updateCovid(
+        @WebParam(name = "data", targetNamespace = "")
+        Covid data);
+
+    /**
+     * 
+     * @param data
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod(operationName = "DeleteCovid")
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "DeleteCovid", targetNamespace = "http://services/", className = "services.DeleteCovid")
+    @ResponseWrapper(localName = "DeleteCovidResponse", targetNamespace = "http://services/", className = "services.DeleteCovidResponse")
+    @Action(input = "http://services/CovidWebService/DeleteCovidRequest", output = "http://services/CovidWebService/DeleteCovidResponse")
+    public String deleteCovid(
         @WebParam(name = "data", targetNamespace = "")
         Covid data);
 
