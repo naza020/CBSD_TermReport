@@ -60,6 +60,8 @@ public class CovidSoapClient {
 //           listAll();
         //delete data that appear after use func insertData();
 //        deleteData();
+//        System.out.println("");
+//        System.out.println("");
 //        deleteData();
     }
 
@@ -97,15 +99,15 @@ public class CovidSoapClient {
         callSoap.printCovid(co);
         co.setNewCase(10000);
         System.out.println("After Update");
-        callSoap.updateCovid(co);
+        System.out.println(callSoap.updateCovid(co));
         Covid response = callSoap.listByPk(2021, 13);
         callSoap.printCovid(response);
     }
 
     public static void deleteData() {
         Covid co = callSoap.listByPk(2020, 15);
-        List<Covid> temp = callSoap.listAll();
         if (co != null) {
+            List<Covid> temp = callSoap.listAll();
             System.out.println("Before Delete:Count = " + temp.size());
             callSoap.printCovid(co);
             System.out.println(callSoap.deleteCovid(co));
@@ -144,7 +146,7 @@ public class CovidSoapClient {
         tempDate.set(2022, 12, 14);
         XMLGregorianCalendar finalDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(tempDate);
         newRow.setUpdateDate(finalDate);
-        callSoap.insertCovid(newRow);
+        System.out.println(callSoap.insertCovid(newRow));
         temp = callSoap.listAll();
         System.out.println("After Insert :Count =" + temp.size());
     }
